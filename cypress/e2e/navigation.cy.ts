@@ -51,7 +51,7 @@ describe("Sidebar Navigation", () => {
         const windowOpenStub = cy.stub(win, "open").as("windowOpen");
 
         cy.get("nav")
-          .contains("Support") // replace with your selector
+          .contains("Support")
           .click()
           .then(() => {
             expect(windowOpenStub).to.be.calledWith(emailLink);
