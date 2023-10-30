@@ -28,11 +28,24 @@ describe("Project List", () => {
         .find("li")
         .each(($el, index) => {
           // check that project data is rendered
+
+          function getStatusText(status: string) {
+            if (status === "info") {
+              return "stable";
+            } else if (status === "error") {
+              return "critical";
+            } else {
+              return "warning";
+            }
+          }
+
           cy.wrap($el).contains(mockProjects[index].name);
           cy.wrap($el).contains(languageNames[index]);
           cy.wrap($el).contains(mockProjects[index].numIssues);
           cy.wrap($el).contains(mockProjects[index].numEvents24h);
-          cy.wrap($el).contains(capitalize(mockProjects[index].status));
+          cy.wrap($el).contains(
+            capitalize(getStatusText(mockProjects[index].status)),
+          );
           cy.wrap($el)
             .find("a")
             .should("have.attr", "href", "/dashboard/issues");
