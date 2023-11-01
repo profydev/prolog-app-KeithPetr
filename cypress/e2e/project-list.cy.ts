@@ -29,15 +29,12 @@ describe("Project List", () => {
         .each(($el, index) => {
           // check that project data is rendered
 
-          function getStatusText(status: string) {
-            if (status === "info") {
-              return "stable";
-            } else if (status === "error") {
-              return "critical";
-            } else {
-              return "warning";
-            }
-          }
+          const getStatusText = (status: string) =>
+            status === "info"
+              ? "stable"
+              : status === "error"
+              ? "critical"
+              : "warning";
 
           cy.wrap($el).contains(mockProjects[index].name);
           cy.wrap($el).contains(languageNames[index]);
