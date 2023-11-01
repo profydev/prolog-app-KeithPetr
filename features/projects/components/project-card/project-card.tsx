@@ -35,8 +35,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
     }
   }
 
-  console.log(project);
-
   return (
     <div className={styles.container}>
       <div className={styles.topContainer}>
