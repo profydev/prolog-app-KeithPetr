@@ -18,7 +18,6 @@ describe("Footer Navigation", () => {
     });
 
     it("contains 4 anchor elements with appropriate text", () => {
-      cy.wait(1000);
       cy.get("footer") // Select the footer element
         .find("a") // Find all anchor elements within the footer
         .should("have.length", 4) // Ensure there are 4 anchor elements
@@ -30,7 +29,10 @@ describe("Footer Navigation", () => {
     });
 
     it("logo exists and is visible", () => {
-      cy.get("footer").find("img").should("be.visible");
+      cy.get("footer")
+        .find("img")
+        .should("be.visible")
+        .and("have.attr", "src", "/icons/logo-small.svg");
     });
   });
 });
