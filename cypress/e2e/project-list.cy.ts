@@ -24,29 +24,30 @@ describe("Project List", () => {
       const languageNames = ["React", "Node.js", "Python"];
 
       // get all project cards
-      cy.get("main")
-        .find("li")
-        .each(($el, index) => {
-          // check that project data is rendered
+      cy.get("main").find("li").should("have.length", mockProjects.length);
 
-          const getStatusText = (status: string) =>
-            status === "info"
-              ? "stable"
-              : status === "error"
-              ? "critical"
-              : "warning";
+      mockProjects.forEach((project, index) => {
+        // check that project data is rendered
+        const { name, numIssues, numEvents24h, status } = project;
 
-          cy.wrap($el).contains(mockProjects[index].name);
-          cy.wrap($el).contains(languageNames[index]);
-          cy.wrap($el).contains(mockProjects[index].numIssues);
-          cy.wrap($el).contains(mockProjects[index].numEvents24h);
-          cy.wrap($el).contains(
-            capitalize(getStatusText(mockProjects[index].status)),
-          );
-          cy.wrap($el)
-            .find("a")
-            .should("have.attr", "href", "/dashboard/issues");
-        });
+        const getStatusText = (status: string) =>
+          status === "info"
+            ? "stable"
+            : status === "error"
+            ? "critical"
+            : "warning";
+
+        cy.get("main li")
+          .eq(index)
+          .within(() => {
+            cy.contains("[data-cy=name]", name);
+            cy.contains("[data-cy=language]", languageNames[index]);
+            cy.contains("[data-cy=numIssues]", numIssues);
+            cy.contains("[data-cy=numEvents]", numEvents24h);
+            cy.contains("[data-cy=status]", capitalize(getStatusText(status)));
+            cy.contains('a[href="/dashboard/issues"]', "issues");
+          });
+      });
     });
   });
 });

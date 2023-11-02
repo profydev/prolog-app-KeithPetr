@@ -46,20 +46,28 @@ export function ProjectCard({ project }: ProjectCardProps) {
             alt={language}
           />
           <div>
-            <div className={styles.name}>{name}</div>
-            <div className={styles.language}>{languageNames[language]}</div>
+            <div data-cy="name" className={styles.name}>
+              {name}
+            </div>
+            <div data-cy="language" className={styles.language}>
+              {languageNames[language]}
+            </div>
           </div>
         </div>
         <div className={styles.infoContainer}>
           <div className={styles.issues}>
             <div className={styles.issuesTitle}>Total issues</div>
-            <div className={styles.issuesNumber}>{numIssues}</div>
+            <div data-cy="numIssues" className={styles.issuesNumber}>
+              {numIssues}
+            </div>
           </div>
           <div className={styles.issues}>
             <div className={styles.issuesTitle}>Last 24h</div>
-            <div className={styles.issuesNumber}>{numEvents24h}</div>
+            <div data-cy="numEvents" className={styles.issuesNumber}>
+              {numEvents24h}
+            </div>
           </div>
-          <div className={styles.status}>
+          <div data-cy="status" className={styles.status}>
             <Badge color={statusColors[getStatusText(status)]}>
               {capitalize(getStatusText(status))}
             </Badge>
