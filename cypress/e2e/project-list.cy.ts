@@ -3,14 +3,13 @@ import mockProjects from "../fixtures/projects.json";
 
 describe("Project List", () => {
   const testLoadingImage = () => {
-    it("displays the loading image when the data is loading", () => {
+    it("displays the spinner when the data is loading", () => {
       cy.intercept("GET", "https://prolog-api.profy.dev/project", {
         fixture: "projects.json",
         delayMs: 2000,
-      }).as("getProjects");
-      cy.reload();
+      });
+      cy.visit(`http://localhost:3000/dashboard`);
       cy.get("[data-cy=loadingImg]").should("be.visible");
-      cy.wait("@getProjects");
       cy.get("[data-cy=loadingImg]").should("not.exist");
     });
   };
