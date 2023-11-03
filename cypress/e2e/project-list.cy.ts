@@ -2,6 +2,18 @@ import capitalize from "lodash/capitalize";
 import mockProjects from "../fixtures/projects.json";
 
 describe("Project List", () => {
+  const testLoadingImage = () => {
+    it("displays the spinner when the data is loading", () => {
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+        fixture: "projects.json",
+        delayMs: 2000,
+      });
+      cy.visit(`http://localhost:3000/dashboard`);
+      cy.get("[data-cy=loadingImg]").should("be.visible");
+      cy.get("[data-cy=loadingImg]").should("not.exist");
+    });
+  };
+
   beforeEach(() => {
     // setup request mock
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
@@ -49,5 +61,14 @@ describe("Project List", () => {
           });
       });
     });
+
+    testLoadingImage();
+  });
+
+  context("mobile resolution", () => {
+    beforeEach(() => {
+      cy.viewport("iphone-8");
+    });
+    testLoadingImage();
   });
 });
