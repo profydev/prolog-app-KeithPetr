@@ -14,6 +14,38 @@ describe("Project List", () => {
     });
   };
 
+  const testFetchError = () => {
+    beforeEach(() => {
+      cy.visit("http://localhost:3000/dashboard");
+    });
+    it("reloads data when 'Try again' button is clicked after an error", () => {
+      // Intercept the API request and force it to return an error
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+        body: {},
+        statusCode: 400, // Simulate an error response
+      }).as("getProjectsError");
+
+      cy.wait(6000);
+
+      // Verify that the error container is displayed
+      cy.get("[data-cy=errorContainer]").should("be.visible");
+
+      // intercept request with data
+      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+        fixture: "projects.json",
+      }).as("getProjects");
+
+      // Click the "Try again" button
+      cy.get("[data-cy=tryAgainButton]").click();
+
+      // Wait for the request to resolve after clicking the button
+      cy.wait("@getProjects");
+
+      // Verify that the data is loaded (assuming it's visible on success)
+      cy.get("[data-cy=list]").find("li").should("have.length", 3);
+    });
+  };
+
   beforeEach(() => {
     // setup request mock
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
@@ -63,12 +95,15 @@ describe("Project List", () => {
     });
 
     testLoadingImage();
+    testFetchError();
   });
 
   context("mobile resolution", () => {
     beforeEach(() => {
       cy.viewport("iphone-8");
     });
+
     testLoadingImage();
+    testFetchError();
   });
 });

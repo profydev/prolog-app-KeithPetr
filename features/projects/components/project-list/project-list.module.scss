@@ -37,3 +37,37 @@
 .loading {
   animation: spin 2s linear infinite;
 }
+
+.errorContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--error-300, #fda29b);
+  background: var(--error-25, #fffbfa);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--error-700, #b42318);
+  gap: 8px;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  padding: 0;
+  gap: 9px;
+  background-color: transparent;
+  border: none;
+  color: var(--error-700, #b42318);
+  cursor: pointer;
+}
