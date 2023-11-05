@@ -41,6 +41,8 @@ describe("Project List", () => {
       // Wait for the request to resolve after clicking the button
       cy.wait("@getProjects");
 
+      cy.get("[data-cy=errorContainer]").should("not.exist");
+
       // Verify that the data is loaded (assuming it's visible on success)
       cy.get("[data-cy=list]").find("li").should("have.length", 3);
     });
