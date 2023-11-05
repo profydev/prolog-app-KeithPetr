@@ -26,7 +26,7 @@ describe("Project List", () => {
           statusCode: 400,
         }).as("getProjectError");
 
-        cy.wait(4000);
+        cy.wait(7000);
 
         cy.get("[data-cy=errorContainer]").should("be.visible");
       });
@@ -38,7 +38,7 @@ describe("Project List", () => {
           statusCode: 400,
         }).as("getProjectError");
 
-        cy.wait(4000);
+        cy.wait(7000);
 
         cy.get("[data-cy=errorContainer]").should("be.visible");
 
