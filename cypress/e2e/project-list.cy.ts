@@ -14,6 +14,44 @@ describe("Project List", () => {
     });
   };
 
+  const testFetchError = () => {
+    describe("Project list - Error", () => {
+      beforeEach(() => {
+        // intercept request with error
+        cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+          body: {},
+          statusCode: 400,
+        }).as("getProjectError");
+
+        cy.visit("http://localhost:3000/dashboard");
+      });
+
+      it("error message displayed on failed request", () => {
+        cy.wait(7000);
+
+        cy.get("[data-cy=errorContainer]").should("be.visible");
+      });
+
+      it("data is successfully retrieved and displayed after inital error", () => {
+        cy.wait(7000);
+
+        cy.get("[data-cy=errorContainer]").should("be.visible");
+
+        // intercept request with data
+        cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+          fixture: "projects.json",
+        }).as("getProjects");
+
+        cy.get("[data-cy=tryAgainButton]").click();
+
+        cy.wait("@getProjects");
+
+        // check that data is displayed
+        cy.get("[data-cy=list]").find("li").should("have.length", 3);
+      });
+    });
+  };
+
   beforeEach(() => {
     // setup request mock
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
@@ -63,6 +101,7 @@ describe("Project List", () => {
     });
 
     testLoadingImage();
+    testFetchError();
   });
 
   context("mobile resolution", () => {
@@ -70,5 +109,6 @@ describe("Project List", () => {
       cy.viewport("iphone-8");
     });
     testLoadingImage();
+    testFetchError();
   });
 });
