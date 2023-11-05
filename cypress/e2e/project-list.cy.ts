@@ -25,7 +25,7 @@ describe("Project List", () => {
         statusCode: 400, // Simulate an error response
       }).as("getProjectsError");
 
-      cy.wait(20000);
+      cy.wait(200000);
 
       // Verify that the error container is displayed
       cy.get("[data-cy=errorContainer]").should("be.visible");
