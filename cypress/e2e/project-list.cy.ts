@@ -17,27 +17,22 @@ describe("Project List", () => {
   const testFetchError = () => {
     describe("Project list - Error", () => {
       beforeEach(() => {
-        cy.visit("http://localhost:3000/dashboard");
-      });
-      it("error message displayed on failed request", () => {
         // intercept request with error
         cy.intercept("GET", "https://prolog-api.profy.dev/project", {
           body: {},
           statusCode: 400,
         }).as("getProjectError");
 
+        cy.visit("http://localhost:3000/dashboard");
+      });
+
+      it("error message displayed on failed request", () => {
         cy.wait(7000);
 
         cy.get("[data-cy=errorContainer]").should("be.visible");
       });
 
       it("data is successfully retrieved and displayed after inital error", () => {
-        // intercept request with error
-        cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-          body: {},
-          statusCode: 400,
-        }).as("getProjectError");
-
         cy.wait(7000);
 
         cy.get("[data-cy=errorContainer]").should("be.visible");
