@@ -1,5 +1,6 @@
 @use "@styles/breakpoint";
 @use "@styles/space";
+@use "@styles/color";
 
 .list {
   display: grid;
@@ -43,14 +44,14 @@
   justify-content: space-between;
   padding: 16px;
   border-radius: 8px;
-  border: 1px solid var(--error-300, #fda29b);
-  background: var(--error-25, #fffbfa);
+  border: 1px solid color.$error-300;
+  background: color.$error-25;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
   letter-spacing: 0;
-  color: var(--error-700, #b42318);
+  color: color.$error-700;
   gap: 8px;
 }
 
@@ -68,6 +69,6 @@
   gap: 9px;
   background-color: transparent;
   border: none;
-  color: var(--error-700, #b42318);
+  color: color.$error-700;
   cursor: pointer;
 }
