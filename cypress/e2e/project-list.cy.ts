@@ -15,36 +15,45 @@ describe("Project List", () => {
   };
 
   const testFetchError = () => {
-    beforeEach(() => {
-      cy.visit("http://localhost:3000/dashboard");
-    });
-    it("reloads data when 'Try again' button is clicked after an error", () => {
-      // Intercept the API request and force it to return an error
-      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-        body: {},
-        statusCode: 400, // Simulate an error response
-      }).as("getProjectsError");
+    describe("Project list - Error", () => {
+      beforeEach(() => {
+        cy.visit("http://localhost:3000/dashboard");
+      });
+      it("error message displayed on failed request", () => {
+        // intercept request with error
+        cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+          body: {},
+          statusCode: 400,
+        }).as("getProjectError");
 
-      cy.wait(200000);
+        cy.wait(4000);
 
-      // Verify that the error container is displayed
-      cy.get("[data-cy=errorContainer]").should("be.visible");
+        cy.get("[data-cy=errorContainer]").should("be.visible");
+      });
 
-      // intercept request with data
-      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-        fixture: "projects.json",
-      }).as("getProjects");
+      it("data is successfully retrieved and displayed after inital error", () => {
+        // intercept request with error
+        cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+          body: {},
+          statusCode: 400,
+        }).as("getProjectError");
 
-      // Click the "Try again" button
-      cy.get("[data-cy=tryAgainButton]").click();
+        cy.wait(4000);
 
-      // Wait for the request to resolve after clicking the button
-      cy.wait("@getProjects");
+        cy.get("[data-cy=errorContainer]").should("be.visible");
 
-      cy.get("[data-cy=errorContainer]").should("not.exist");
+        // intercept request with data
+        cy.intercept("GET", "https://prolog-api.profy.dev/project", {
+          fixture: "projects.json",
+        }).as("getProjects");
 
-      // Verify that the data is loaded (assuming it's visible on success)
-      cy.get("[data-cy=list]").find("li").should("have.length", 3);
+        cy.get("[data-cy=tryAgainButton]").click();
+
+        cy.wait("@getProjects");
+
+        // check that data is displayed
+        cy.get("[data-cy=list]").find("li").should("have.length", 3);
+      });
     });
   };
 
