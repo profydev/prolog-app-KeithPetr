@@ -97,7 +97,7 @@ describe("Project List", () => {
     testLoadingImage();
     testFetchError();
   });
-  
+
   context("mobile resolution", () => {
     beforeEach(() => {
       cy.viewport("iphone-8");
