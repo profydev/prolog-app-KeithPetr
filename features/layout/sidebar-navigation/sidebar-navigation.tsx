@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { Routes } from "@config/routes";
 import classNames from "classnames";
 import { NavigationContext } from "./navigation-context";
@@ -20,21 +20,6 @@ export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isMobileView, setIsMobileView] = useState(false);
-
-  useEffect(() => {
-    const updateMobileView = () => {
-      setIsMobileView(window.innerWidth < 1024);
-    };
-
-    window.addEventListener("resize", updateMobileView);
-
-    updateMobileView();
-
-    return () => {
-      window.removeEventListener("resize", updateMobileView);
-    };
-  }, []);
 
   return (
     <div
@@ -52,15 +37,21 @@ export function SidebarNavigation() {
         <header className={styles.header}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={
-              isSidebarCollapsed && isMobileView
-                ? "/icons/logo-large.svg"
-                : isSidebarCollapsed && !isMobileView
-                ? "/icons/logo-small.svg"
-                : "/icons/logo-large.svg"
-            }
+            src={"/icons/logo-large.svg"}
             alt="logo"
-            className={styles.logo}
+            className={classNames(
+              styles.logoLarge,
+              isSidebarCollapsed && styles.isCollapsed,
+            )}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={"/icons/logo-small.svg"}
+            alt="logo"
+            className={classNames(
+              styles.logoSmall,
+              isSidebarCollapsed && styles.isCollapsed,
+            )}
           />
           <Button
             onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
