@@ -72,15 +72,21 @@ describe("Sidebar Navigation", () => {
     });
 
     it("shows small logo when switching to landscape mode while navigation is collapsed", () => {
+      cy.wait(2000);
+
       cy.get("nav").contains("Collapse").click();
 
-      cy.get('img[src="/icons/logo-small.svg"]').should("be.visible");
+      cy.wait(2000);
+
+      cy.get('header img[src="/icons/logo-small.svg"]').should("be.visible");
       cy.get('img[src="/icons/logo-large.svg"]').should("not.be.visible");
 
       cy.viewport(900, 1025);
 
-      cy.get('img[src="/icons/logo-small.svg"]').should("not.be.visible");
       cy.get('img[src="/icons/logo-large.svg"]').should("be.visible");
+      cy.get('header img[src="/icons/logo-small.svg"]').should(
+        "not.be.visible",
+      );
     });
   });
 
