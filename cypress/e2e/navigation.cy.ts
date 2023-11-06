@@ -12,23 +12,43 @@ describe("Sidebar Navigation", () => {
       // check that each link leads to the correct page
       cy.get("nav")
         .contains("Projects")
-        .should("have.attr", "href", "/dashboard");
+        .click()
+        .url()
+        .should("eq", "http://localhost:3000/dashboard")
+        .get("h1")
+        .contains("Projects");
 
       cy.get("nav")
         .contains("Issues")
-        .should("have.attr", "href", "/dashboard/issues");
+        .click()
+        .url()
+        .should("eq", "http://localhost:3000/dashboard/issues")
+        .get("h1")
+        .contains("Issues");
 
       cy.get("nav")
         .contains("Alerts")
-        .should("have.attr", "href", "/dashboard/alerts");
+        .click()
+        .url()
+        .should("eq", "http://localhost:3000/dashboard/alerts")
+        .get("h1")
+        .contains("Alerts");
 
       cy.get("nav")
         .contains("Users")
-        .should("have.attr", "href", "/dashboard/users");
+        .click()
+        .url()
+        .should("eq", "http://localhost:3000/dashboard/users")
+        .get("h1")
+        .contains("Users");
 
       cy.get("nav")
         .contains("Settings")
-        .should("have.attr", "href", "/dashboard/settings");
+        .click()
+        .url()
+        .should("eq", "http://localhost:3000/dashboard/settings")
+        .get("h1")
+        .contains("Settings");
 
       cy.get("nav")
         .contains("Support")
