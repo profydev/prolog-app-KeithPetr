@@ -1,0 +1,151 @@
+@use "@styles/color";
+@use "@styles/font";
+@use "@styles/space";
+
+.button {
+  cursor: pointer;
+  border: none;
+  border-radius: space.$s2;
+  display: flex;
+  align-items: center;
+  gap: space.$s2;
+
+  &.sm {
+    padding: space.$s1 space.$s3;
+    font: font.$text-xs-regular;
+
+    img {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &.md {
+    padding: space.$s2 space.$s4;
+    font: font.$text-sm-regular;
+
+    img {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  &.lg {
+    padding: space.$s2 space.$s5;
+    font: font.$text-md-regular;
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  &.xl {
+    padding: space.$s3 space.$s5;
+    font: font.$text-lg-regular;
+
+    img {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+  }
+
+  &.primary {
+    background-color: color.$primary-600;
+    color: color.$primary-25;
+
+    &:hover {
+      background-color: color.$primary-700;
+    }
+
+    &:focus {
+      outline: none;
+      border: 4px solid color.$primary-100;
+    }
+
+    &:disabled {
+      background-color: color.$primary-200;
+    }
+  }
+
+  &.secondary {
+    background-color: color.$primary-50;
+    color: color.$primary-700;
+
+    &:hover {
+      background-color: color.$primary-100;
+    }
+
+    &:focus {
+      outline: none;
+      border: 4px solid color.$primary-100;
+    }
+
+    &:disabled {
+      background-color: color.$primary-25;
+    }
+  }
+
+  &.gray {
+    background-color: color.$gray-25;
+    color: color.$gray-700;
+    border: 1px solid color.$gray-300;
+
+    &:hover {
+      background-color: color.$gray-300;
+    }
+
+    &:focus {
+      outline: none;
+      border: 4px solid color.$gray-300;
+    }
+
+    &:disabled {
+      background-color: color.$gray-200;
+    }
+  }
+
+  &.empty {
+    background-color: transparent;
+    color: color.$primary-700;
+
+    &:hover {
+      background-color: color.$primary-50;
+    }
+
+    &:disabled {
+      background-color: color.$gray-300;
+    }
+  }
+
+  &.emptyGray {
+    background-color: transparent;
+    color: color.$gray-500;
+
+    &:hover {
+      background-color: color.$gray-50;
+    }
+
+    &:disabled {
+      background-color: color.$gray-300;
+    }
+  }
+
+  &.error {
+    background-color: color.$error-600;
+    color: color.$error-25;
+
+    &:hover {
+      background-color: color.$error-700;
+    }
+
+    &:focus {
+      outline: none;
+      border: 4px solid color.$error-100;
+    }
+
+    &:disabled {
+      background-color: color.$error-200;
+    }
+  }
+}
