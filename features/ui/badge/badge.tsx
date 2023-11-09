@@ -22,6 +22,8 @@ type BadgeProps = {
   color?: BadgeColor;
 };
 
+console.log("test");
+
 export function Badge({
   children,
   size = BadgeSize.md,

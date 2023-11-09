@@ -3,7 +3,6 @@ import { useGetProjects } from "../../api/use-get-projects";
 import styles from "./project-list.module.scss";
 
 export function ProjectList() {
-  console.log(useGetProjects());
   const { data, isLoading, isError, error, refetch } = useGetProjects();
 
   if (isLoading) {
