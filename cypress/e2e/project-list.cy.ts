@@ -1,5 +1,5 @@
-import capitalize from "lodash/capitalize";
 import mockProjects from "../fixtures/projects.json";
+import { ProjectStatus } from "@api/projects.types";
 
 describe("Project List", () => {
   const testLoadingImage = () => {
@@ -79,13 +79,11 @@ describe("Project List", () => {
       mockProjects.forEach((project, index) => {
         // check that project data is rendered
         const { name, numIssues, numEvents24h, status } = project;
-
-        const getStatusText = (status: string) =>
-          status === "info"
-            ? "stable"
-            : status === "error"
-            ? "critical"
-            : "warning";
+        const statusToText = {
+          [ProjectStatus.info]: "Stable",
+          [ProjectStatus.warning]: "Warning",
+          [ProjectStatus.error]: "Critical",
+        };
 
         cy.get("main li")
           .eq(index)
@@ -94,7 +92,10 @@ describe("Project List", () => {
             cy.contains("[data-cy=language]", languageNames[index]);
             cy.contains("[data-cy=numIssues]", numIssues);
             cy.contains("[data-cy=numEvents]", numEvents24h);
-            cy.contains("[data-cy=status]", capitalize(getStatusText(status)));
+            cy.contains(
+              "[data-cy=status]",
+              statusToText[status as ProjectStatus],
+            );
             cy.contains('a[href="/dashboard/issues"]', "issues");
           });
       });
