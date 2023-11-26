@@ -58,6 +58,19 @@ export function IssueList() {
     }
   }, [items, projectName]);
 
+  useEffect(() => {
+    // Set the page number in the URL when the component mounts
+    router.push({
+      pathname: router.pathname,
+      query: {
+        page,
+        status: selectedStatus,
+        level: selectedLevel,
+        project: projectName,
+      },
+    });
+  }, []); // Empty dependency array to run only once when the component mounts
+
   console.log("filtered issues: ", filteredIssues);
 
   if (projects.isLoading || issuesPage.isLoading) {
