@@ -1,0 +1,17 @@
+@use "@styles/color";
+@use "@styles/font";
+@use "@styles/space";
+
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-end;
+  width: 70%;
+  gap: 8px;
+}

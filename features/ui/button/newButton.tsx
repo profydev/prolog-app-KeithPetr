@@ -17,18 +17,18 @@ export enum ButtonColor {
   error = "error",
 }
 
-type ButtonProps = {
-  children: React.ReactNode;
+export type ButtonProps = {
+  children?: React.ReactNode;
   size?: ButtonSize;
   color?: ButtonColor;
   icon?: React.ReactNode;
   showIcon?: boolean;
   showText?: boolean;
   iconPosition?: "left" | "right";
-  disabled: boolean;
+  disabled?: boolean;
 };
 
-export function Button({
+export function NewButton({
   children,
   size = ButtonSize.md,
   color = ButtonColor.primary,

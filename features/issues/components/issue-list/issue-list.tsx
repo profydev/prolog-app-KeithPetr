@@ -1,21 +1,64 @@
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 import { ProjectLanguage } from "@api/projects.types";
 import { useGetProjects } from "@features/projects";
 import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
 import styles from "./issue-list.module.scss";
+import { Issue } from "@api/issues.types";
 
 export function IssueList() {
+  const [filteredIssues, setFilteredIssues] = useState<Issue[]>([]);
   const router = useRouter();
   const page = Number(router.query.page || 1);
+  const selectedStatus = router.query.status || "";
+  const selectedLevel = router.query.level || "";
+  const projectName = router.query.project || "";
   const navigateToPage = (newPage: number) =>
     router.push({
       pathname: router.pathname,
-      query: { page: newPage },
+      query: {
+        page: newPage,
+        status: selectedStatus,
+        level: selectedLevel,
+        project: projectName,
+      },
     });
+
+  console.log("issue-list projectName: ", projectName);
 
   const issuesPage = useGetIssues(page);
   const projects = useGetProjects();
+  const { items, meta } = issuesPage.data || {};
+
+  console.log("issue-list items: ", items);
+
+  const projectIdToLanguage = (projects.data || []).reduce(
+    (prev, project) => ({
+      ...prev,
+      [project.id]: project.language,
+    }),
+    {} as Record<string, ProjectLanguage>,
+  );
+
+  useEffect(() => {
+    // Check if projectName is not an empty string
+    if (projectName.toString().trim() !== "") {
+      // Update the filtered issues based on the project name
+      const filtered = (items || []).filter((issue) =>
+        projectIdToLanguage[issue.projectId].includes(
+          projectName.toString().trim().toLowerCase(),
+        ),
+      );
+      console.log("filtered: ", filtered);
+      setFilteredIssues(filtered);
+    } else {
+      // If projectName is an empty string, show all items
+      setFilteredIssues(items || []);
+    }
+  }, [items, projectName]);
+
+  console.log("filtered issues: ", filteredIssues);
 
   if (projects.isLoading || issuesPage.isLoading) {
     return <div>Loading</div>;
@@ -31,14 +74,7 @@ export function IssueList() {
     return <div>Error loading issues: {issuesPage.error.message}</div>;
   }
 
-  const projectIdToLanguage = (projects.data || []).reduce(
-    (prev, project) => ({
-      ...prev,
-      [project.id]: project.language,
-    }),
-    {} as Record<string, ProjectLanguage>,
-  );
-  const { items, meta } = issuesPage.data || {};
+  console.log("issue list items: ", projectIdToLanguage);
 
   return (
     <div className={styles.container}>
@@ -52,7 +88,7 @@ export function IssueList() {
           </tr>
         </thead>
         <tbody>
-          {(items || []).map((issue) => (
+          {(filteredIssues || []).map((issue) => (
             <IssueRow
               key={issue.id}
               issue={issue}

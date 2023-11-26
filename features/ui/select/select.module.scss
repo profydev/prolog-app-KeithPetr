@@ -3,7 +3,7 @@
 @use "@styles/space";
 
 .width {
-  width: 320px;
+  width: 150px;
 }
 
 .container {
@@ -17,6 +17,7 @@
   padding: space.$s2-1 space.$s3-1;
   font: font.$text-md-regular;
   color: color.$gray-500;
+  cursor: pointer;
 }
 
 .displayName {
@@ -32,6 +33,7 @@
   box-shadow: 0 1px 2px 0 color.$gray-500;
   font: font.$text-md-regular;
   color: color.$gray-700;
+  background-color: white;
 }
 
 .filled {
@@ -81,6 +83,8 @@
 .flex {
   display: flex;
   flex-direction: column;
+  position: absolute;
+  width: 150px;
 }
 
 .none {
@@ -93,6 +97,7 @@
 
   &:hover {
     background-color: color.$primary-50;
+    cursor: pointer;
   }
 }
 

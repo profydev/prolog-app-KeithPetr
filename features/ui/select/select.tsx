@@ -20,6 +20,9 @@ export type SelectProps = {
   label?: string;
   hint?: boolean;
   hintMessage?: string;
+  isOpen?: boolean;
+  onClick?: () => void;
+  onSelectOption?: (option: string) => void;
 };
 
 export function Select({
@@ -32,6 +35,9 @@ export function Select({
   errorMessage,
   hint,
   hintMessage,
+  isOpen,
+  onClick,
+  onSelectOption,
 }: SelectProps) {
   return (
     <>
@@ -41,32 +47,33 @@ export function Select({
           className={classNames(
             styles[status],
             styles.container,
-            status === "open" && styles.focused,
+            isOpen && styles.focused,
             error && status !== "disabled" && styles.error,
             status === "focused" && error && styles.errorFocused,
           )}
+          onClick={onClick}
         >
           <div className={styles.displayName}>
             {icon && <img src="/icons/user.svg" alt="user icon" />}
-            {status === "empty" ? children : name[0]}
+            {children}
           </div>
           <img
-            src={
-              status === "open"
-                ? "/icons/chevron-up.svg"
-                : "/icons/chevron-down.svg"
-            }
+            src={isOpen ? "/icons/chevron-up.svg" : "/icons/chevron-down.svg"}
             alt="chevron"
           />
         </div>
         <div
           className={classNames(
-            status === "open" ? styles.open : styles.none,
+            isOpen ? styles.open : styles.none,
             styles.flex,
           )}
         >
           {name.map((name, index) => (
-            <div className={styles.option} key={index}>
+            <div
+              className={styles.option}
+              key={index}
+              onClick={() => onSelectOption && onSelectOption(name)}
+            >
               <div className={styles.displayName}>
                 {icon && <img src="/icons/user.svg" alt="user icon" />}
                 {name}
