@@ -22,7 +22,10 @@ describe("Sidebar Navigation", () => {
         .contains("Issues")
         .click()
         .url()
-        .should("eq", "http://localhost:3000/dashboard/issues")
+        .should(
+          "eq",
+          "http://localhost:3000/dashboard/issues?page=1&status=&level=&project=",
+        )
         .get("h1")
         .contains("Issues");
 
