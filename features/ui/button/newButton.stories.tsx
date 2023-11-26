@@ -1,16 +1,16 @@
-import { Button, ButtonSize, ButtonColor } from "./newButton";
+import { NewButton, ButtonSize, ButtonColor } from "./newButton";
 import React from "react";
 import { Meta, StoryFn } from "@storybook/react";
 
 export default {
   title: "Button",
-  component: Button,
+  component: NewButton,
   parameters: {
     layout: "fullscreen",
   },
-} as Meta<typeof Button>;
+} as Meta<typeof NewButton>;
 
-const Template: StoryFn<typeof Button> = ({
+const Template: StoryFn<typeof NewButton> = ({
   size,
   color,
   children,
@@ -20,17 +20,17 @@ const Template: StoryFn<typeof Button> = ({
   disabled,
 }) => (
   <div style={{ padding: 50 }}>
-    <Button
+    <NewButton
       size={size}
       color={color}
       iconPosition={iconPosition}
       showIcon={showIcon}
       showText={showText}
-      icon={<img src="/icons/button-icon.svg" alt="Icon" />}
+      icon={<img src="/icons/check.svg" alt="Icon" />}
       disabled={disabled}
     >
       {children}
-    </Button>
+    </NewButton>
   </div>
 );
 

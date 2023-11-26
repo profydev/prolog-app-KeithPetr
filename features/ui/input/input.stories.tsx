@@ -12,6 +12,7 @@ export default {
 
 const Template: StoryFn<typeof Input> = ({
   label,
+  projectName,
   children,
   status,
   icon,
@@ -21,6 +22,7 @@ const Template: StoryFn<typeof Input> = ({
   hint,
   disabled,
   focus,
+  onChange,
 }) => (
   <div style={{ padding: 50 }}>
     <Input
@@ -33,6 +35,8 @@ const Template: StoryFn<typeof Input> = ({
       hint={hint}
       disabled={disabled}
       focus={focus}
+      projectName={projectName}
+      onChange={onChange}
     >
       {children}
     </Input>
@@ -51,6 +55,8 @@ Default.args = {
   hintMessage: "This is a hint text to help the user.",
   disabled: false,
   focus: false,
+  projectName: "",
+  onChange: () => {},
 };
 Default.parameters = {
   viewMode: "docs",

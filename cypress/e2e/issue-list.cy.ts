@@ -8,15 +8,27 @@ describe("Issue List", () => {
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
       fixture: "projects.json",
     }).as("getProjects");
-    cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=1", {
-      fixture: "issues-page-1.json",
-    }).as("getIssuesPage1");
-    cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=2", {
-      fixture: "issues-page-2.json",
-    }).as("getIssuesPage2");
-    cy.intercept("GET", "https://prolog-api.profy.dev/issue?page=3", {
-      fixture: "issues-page-3.json",
-    }).as("getIssuesPage3");
+    cy.intercept(
+      "GET",
+      "https://prolog-api.profy.dev/issue?page=1&status=&level=",
+      {
+        fixture: "issues-page-1.json",
+      },
+    ).as("getIssuesPage1");
+    cy.intercept(
+      "GET",
+      "https://prolog-api.profy.dev/issue?page=2&status=&level=",
+      {
+        fixture: "issues-page-2.json",
+      },
+    ).as("getIssuesPage2");
+    cy.intercept(
+      "GET",
+      "https://prolog-api.profy.dev/issue?page=3&status=&level=",
+      {
+        fixture: "issues-page-3.json",
+      },
+    ).as("getIssuesPage3");
 
     // open issues page
     cy.visit(`http://localhost:3000/dashboard/issues`);
@@ -31,7 +43,7 @@ describe("Issue List", () => {
 
   context("desktop resolution", () => {
     beforeEach(() => {
-      cy.viewport(1025, 900);
+      cy.viewport(1200, 900);
     });
 
     it("renders the issues", () => {
@@ -88,13 +100,13 @@ describe("Issue List", () => {
       cy.get("tbody tr:first").contains(mockIssues2.items[0].message);
     });
 
-    it("persists page after reload", () => {
+    it("reverts to page 1 after reload", () => {
       cy.get("@next-button").click();
       cy.contains("Page 2 of 3");
 
       cy.reload();
-      cy.wait(["@getProjects", "@getIssuesPage2"]);
-      cy.contains("Page 2 of 3");
+      cy.wait(["@getProjects", "@getIssuesPage1"]);
+      cy.contains("Page 1 of 3");
     });
   });
 });

@@ -7,11 +7,14 @@ const ENDPOINT = "/issue";
 export async function getIssues(
   page: number,
   options?: { signal?: AbortSignal },
+  filters?: object,
 ) {
+  console.log("Before API Call:", filters);
   const { data } = await axios.get<Page<Issue>>(ENDPOINT, {
-    params: { page },
+    params: { page, ...filters },
     signal: options?.signal,
   });
-  console.log(data);
+  console.log("After API Call:", filters);
+  console.log("After API Call Data:", data);
   return data;
 }
