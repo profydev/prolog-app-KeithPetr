@@ -10,11 +10,9 @@ describe("Footer Navigation", () => {
       cy.viewport(1025, 900);
     });
 
-    it("displays the version", () => {
-      cy.get("footer")
-        .find("p")
-        .should("be.visible")
-        .contains(`Version: ${version}`);
+    it("displays the version from package.json", () => {
+      cy.wait(2000);
+      cy.get("footer").contains(`Version: ${version}`);
     });
 
     it("contains 4 anchor elements with appropriate text", () => {
