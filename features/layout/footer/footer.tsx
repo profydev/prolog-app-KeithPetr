@@ -1,11 +1,10 @@
 import styles from "./footer.module.scss";
-import { version } from "../../../package.json";
 import Link from "next/link";
 
 export function Footer() {
   return (
     <footer className={styles.footer}>
-      <p className={styles.version}>{`Version: ${version}`}</p>
+      <div className={styles.version}>Version: {process.env.appVersion}</div>
       <ul className={styles.links}>
         <li>
           <Link href="#" className={styles.anchor}>
