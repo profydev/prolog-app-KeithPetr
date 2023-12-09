@@ -17,28 +17,6 @@
   }
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loadingContainer {
-  width: 100%;
-  height: 255px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loading {
-  animation: spin 2s linear infinite;
-}
-
 .errorContainer {
   display: flex;
   justify-content: space-between;

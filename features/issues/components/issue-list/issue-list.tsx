@@ -6,6 +6,7 @@ import { useGetIssues } from "../../api/use-get-issues";
 import { IssueRow } from "./issue-row";
 import styles from "./issue-list.module.scss";
 import { Issue } from "@api/issues.types";
+import { LoadingIndicator } from "@features/ui";
 
 export function IssueList() {
   const [filteredIssues, setFilteredIssues] = useState<Issue[]>([]);
@@ -74,7 +75,7 @@ export function IssueList() {
   console.log("filtered issues: ", filteredIssues);
 
   if (projects.isLoading || issuesPage.isLoading) {
-    return <div>Loading</div>;
+    return <LoadingIndicator />;
   }
 
   if (projects.isError) {
@@ -90,7 +91,7 @@ export function IssueList() {
   console.log("issue list items: ", projectIdToLanguage);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="issue-list">
       <table className={styles.table}>
         <thead>
           <tr className={styles.headerRow}>

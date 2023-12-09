@@ -7,43 +7,45 @@ describe("Issue List", () => {
     // setup request mocks
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
       fixture: "projects.json",
-    }).as("getProjects");
+    });
     cy.intercept(
       "GET",
       "https://prolog-api.profy.dev/issue?page=1&status=&level=",
       {
         fixture: "issues-page-1.json",
       },
-    ).as("getIssuesPage1");
+    );
     cy.intercept(
       "GET",
       "https://prolog-api.profy.dev/issue?page=2&status=&level=",
       {
         fixture: "issues-page-2.json",
       },
-    ).as("getIssuesPage2");
+    );
     cy.intercept(
       "GET",
       "https://prolog-api.profy.dev/issue?page=3&status=&level=",
       {
         fixture: "issues-page-3.json",
       },
-    ).as("getIssuesPage3");
+    );
 
     // open issues page
     cy.visit(`http://localhost:3000/dashboard/issues`);
+  });
 
-    // wait for request to resolve
-    cy.wait(["@getProjects", "@getIssuesPage1"]);
-
-    // set button aliases
-    cy.get("button").contains("Previous").as("prev-button");
-    cy.get("button").contains("Next").as("next-button");
+  it("shows a loading indicator", () => {
+    cy.get("[data-testid='loading-indicator']").should("be.visible");
+    cy.get("[data-testid='issue-list']").should("be.visible");
+    cy.get("[data-testid='loading-indicator']").should("not.exist");
   });
 
   context("desktop resolution", () => {
     beforeEach(() => {
       cy.viewport(1200, 900);
+      // set button aliases
+      cy.get("button").contains("Previous").as("prev-button");
+      cy.get("button").contains("Next").as("next-button");
     });
 
     it("renders the issues", () => {
@@ -105,7 +107,8 @@ describe("Issue List", () => {
       cy.contains("Page 2 of 3");
 
       cy.reload();
-      cy.wait(["@getProjects", "@getIssuesPage1"]);
+      cy.get("[data-testid='loading-indicator']").should("be.visible");
+      cy.get("[data-testid='loading-indicator']").should("not.exist");
       cy.contains("Page 1 of 3");
     });
   });
