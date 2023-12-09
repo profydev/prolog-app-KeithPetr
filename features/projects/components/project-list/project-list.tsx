@@ -1,4 +1,5 @@
 import { ProjectCard } from "../project-card";
+import { LoadingIndicator } from "@features/ui";
 import { useGetProjects } from "../../api/use-get-projects";
 import styles from "./project-list.module.scss";
 
@@ -6,17 +7,7 @@ export function ProjectList() {
   const { data, isLoading, isError, error, refetch } = useGetProjects();
 
   if (isLoading) {
-    return (
-      <div className={styles.loadingContainer}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          data-cy="loadingImg"
-          className={styles.loading}
-          src="/icons/loading-circle.png"
-          alt="loading-circle"
-        />
-      </div>
-    );
+    return <LoadingIndicator />;
   }
 
   if (isError) {
