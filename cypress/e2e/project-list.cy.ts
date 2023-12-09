@@ -2,18 +2,6 @@ import mockProjects from "../fixtures/projects.json";
 import { ProjectStatus } from "@api/projects.types";
 
 describe("Project List", () => {
-  const testLoadingImage = () => {
-    it("displays the spinner when the data is loading", () => {
-      cy.intercept("GET", "https://prolog-api.profy.dev/project", {
-        fixture: "projects.json",
-        delayMs: 2000,
-      });
-      cy.visit(`http://localhost:3000/dashboard`);
-      cy.get("[data-cy=loadingImg]").should("be.visible");
-      cy.get("[data-cy=loadingImg]").should("not.exist");
-    });
-  };
-
   const testFetchError = () => {
     describe("Project list - Error", () => {
       beforeEach(() => {
@@ -47,7 +35,9 @@ describe("Project List", () => {
         cy.wait("@getProjects");
 
         // check that data is displayed
-        cy.get("[data-cy=list]").find("li").should("have.length", 3);
+        cy.get("[data-testid='project-list']")
+          .find("li")
+          .should("have.length", 3);
       });
     });
   };
@@ -56,13 +46,15 @@ describe("Project List", () => {
     // setup request mock
     cy.intercept("GET", "https://prolog-api.profy.dev/project", {
       fixture: "projects.json",
-    }).as("getProjects");
-
+    });
     // open projects page
     cy.visit("http://localhost:3000/dashboard");
+  });
 
-    // wait for request to resolve
-    cy.wait("@getProjects");
+  it("shows a loading indicator", () => {
+    cy.get("[data-testid='loading-indicator']").should("be.visible");
+    cy.get("[data-testid='project-list']").should("be.visible");
+    cy.get("[data-testid='loading-indicator']").should("not.exist");
   });
 
   context("desktop resolution", () => {
@@ -101,7 +93,6 @@ describe("Project List", () => {
       });
     });
 
-    testLoadingImage();
     testFetchError();
   });
 
@@ -109,7 +100,6 @@ describe("Project List", () => {
     beforeEach(() => {
       cy.viewport("iphone-8");
     });
-    testLoadingImage();
     testFetchError();
   });
 });

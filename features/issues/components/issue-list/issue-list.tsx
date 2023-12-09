@@ -91,7 +91,7 @@ export function IssueList() {
   console.log("issue list items: ", projectIdToLanguage);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="issue-list">
       <table className={styles.table}>
         <thead>
           <tr className={styles.headerRow}>
